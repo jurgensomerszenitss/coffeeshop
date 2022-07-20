@@ -3,3 +3,14 @@
 ################################################################################
 
 /.vs/Coffeeshop/DesignTimeBuild
+/.vs
+/Coffeeshop.Api/bin/Debug/net6.0
+/Coffeeshop.Api/obj
+/Coffeeshop.Api.Tests/bin/Debug/net6.0
+/Coffeeshop.Api.Tests/obj
+/Coffeeshop.Domain/bin/Debug/net6.0
+/Coffeeshop.Domain/obj
+/Coffeeshop.Domain.Tests/bin/Debug/net6.0
+/Coffeeshop.Domain.Tests/obj
+/Coffeeshop.Infrastructure/bin/Debug/net6.0
+/Coffeeshop.Infrastructure/obj
