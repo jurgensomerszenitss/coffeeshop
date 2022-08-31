@@ -4,10 +4,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Coffeeshop.Infrastructure.MySQL.Configuration;
 
-internal class SupplierEntityTypeConfiguration : IEntityTypeConfiguration<Supplier>
+internal class OrderEntityTypeConfiguration : IEntityTypeConfiguration<Order>
 {
-    public void Configure(EntityTypeBuilder<Supplier> builder)
+    public void Configure(EntityTypeBuilder<Order> builder)
     {
+        builder.ToTable("order");
+
         builder.HasKey(p => p.Id);
         builder.Property(p => p.Name).IsRequired().HasMaxLength(50);
     }

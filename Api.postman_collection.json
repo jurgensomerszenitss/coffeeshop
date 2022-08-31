@@ -1,0 +1,1293 @@
+{
+	"info": {
+		"_postman_id": "279e5825-5c69-4a11-9f46-532c03357dda",
+		"name": "Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4235814"
+	},
+	"item": [
+		{
+			"name": "type",
+			"item": [
+				{
+					"name": "Get types",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Cappucino\",\r\n    \"type\":\"normal\",\r\n    \"supplierId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee/types",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee",
+								"types"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "coffee",
+			"item": [
+				{
+					"name": "Create coffee [invalid]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"  pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"if(json) {\r",
+									"    pm.test(\"Has name error\", () => pm.expect(json.Name.length).to.eql(1))\r",
+									"    pm.test(\"Has Type error\", () => pm.expect(json.Type.length).to.eql(1))\r",
+									"    pm.test(\"Has Quantity error\", () => pm.expect(json.Quantity.length).to.eql(1))\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantity\":-1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create coffee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"if(json) {\r",
+									"    pm.collectionVariables.set(\"coffee_id\", json);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Test Coffee\",\r\n    \"type\":\"Test\",\r\n    \"quantity\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get coffee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Cappucino\",\r\n    \"type\":\"normal\",\r\n    \"supplierId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee/{{coffee_id}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee",
+								"{{coffee_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get coffee [notfound]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", () => {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Cappucino\",\r\n    \"type\":\"normal\",\r\n    \"supplierId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee/0",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update coffee [invalid]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"  pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"if(json) {\r",
+									"    pm.test(\"Has name error\", () => pm.expect(json.Name.length).to.eql(1))\r",
+									"    pm.test(\"Has Type error\", () => pm.expect(json.Type.length).to.eql(1))\r",
+									"    pm.test(\"Has Quantity error\", () => pm.expect(json.Quantity.length).to.eql(1))\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": {{coffee_id}},\r\n    \"name\":\"\",\r\n    \"type\":\"\",\r\n    \"quantity\":-1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update coffee [notfound]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", () => {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":0,\r\n    \"name\":\"Test Coffee\",\r\n    \"type\":\"Test\",\r\n    \"quantity\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update coffee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 202\", () => {\r",
+									"  pm.response.to.have.status(202);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": {{coffee_id}},\r\n    \"name\":\"Test more\",\r\n    \"type\":\"Test\",\r\n    \"quantity\":10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get coffee - after update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"if(json) {\r",
+									"    pm.test(\"Has updated name\", () => pm.expect(json.name).to.eql(\"Test more\"))\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Cappucino\",\r\n    \"type\":\"normal\",\r\n    \"supplierId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee/{{coffee_id}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee",
+								"{{coffee_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search coffee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Cappucino\",\r\n    \"type\":\"normal\",\r\n    \"supplierId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee?type=Americanos",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "Americanos"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "Create order [invalid]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"  pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"if(json) {\r",
+									"    pm.test(\"Has name error\", () => pm.expect(json.Name.length).to.eql(1))\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/order",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {\r",
+									"  pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"if(json) {\r",
+									"    pm.collectionVariables.set(\"order_id\", json);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"John Doe\",\r\n    \"items\":[\r\n        {\r\n            \"coffeeId\": {{coffee_id}},\r\n            \"quantity\":5\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/order",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get coffee  - after quantity patch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"if(json) {\r",
+									"    pm.test(\"Coffee quantity is updated\", () => pm.expect(json.quantity).to.eql(5))\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Cappucino\",\r\n    \"type\":\"normal\",\r\n    \"supplierId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee/{{coffee_id}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee",
+								"{{coffee_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/order/{{order_id}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"order",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order [not found]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", () => {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/order/0",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"order",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update order [invalid]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", () => {\r",
+									"  pm.response.to.have.status(400);\r",
+									"});\r",
+									"\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"if(json) {\r",
+									"    pm.test(\"Has name error\", () => pm.expect(json.Name.length).to.eql(1))\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": {{order_id}},\r\n    \"name\":\"\",\r\n    \"items\":[\r\n        {\r\n            \"coffeeId\": {{coffee_id}},\r\n            \"quantity\":15\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/order",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update order [not found]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", () => {\r",
+									"  pm.response.to.have.status(404);\r",
+									"}); "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 0,\r\n    \"name\":\"Missing\",\r\n    \"items\":[\r\n        {\r\n            \"coffeeId\": {{coffee_id}},\r\n            \"quantity\":5\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/order",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 202\", () => {\r",
+									"  pm.response.to.have.status(202);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": {{order_id}},\r\n    \"name\":\"John Doe\",\r\n    \"items\":[\r\n        {\r\n            \"coffeeId\":{{coffee_id}},\r\n            \"quantity\":2\r\n        },\r\n        {\r\n            \"coffeeId\":{{coffee_id}},\r\n            \"quantity\":2\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/order",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order - after update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"if(json) {\r",
+									"    pm.test(\"Has updated items\", () => pm.expect(json.items.length).to.eql(2))\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/order/{{order_id}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"order",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 202\", () => {\r",
+									"  pm.response.to.have.status(202);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Don Joe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/order/{{order_id}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"order",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get order - after patch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var json = pm.response.json();\r",
+									"\r",
+									"if(json) {\r",
+									"    pm.test(\"Has patched name\", () => pm.expect(json.name).to.eql((('Don Joe'))))\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/order/{{order_id}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"order",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Cappucino\",\r\n    \"type\":\"normal\",\r\n    \"supplierId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/order",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search sales",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Cappucino\",\r\n    \"type\":\"normal\",\r\n    \"supplierId\":1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee/types/Test/sales",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee",
+								"types",
+								"Test",
+								"sales"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "clean up",
+			"item": [
+				{
+					"name": "Delete coffee [invalid]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {\r",
+									"  pm.response.to.have.status(403);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee/{{coffee_id}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee",
+								"{{coffee_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", () => {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/order/{{order_id}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"order",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete order [not found]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", () => {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/order/{{order_id}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"order",
+								"{{order_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete coffee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", () => {\r",
+									"  pm.response.to.have.status(204);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee/{{coffee_id}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee",
+								"{{coffee_id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete coffee [not found]",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", () => {\r",
+									"  pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/coffee/{{coffee_id}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"coffee",
+								"{{coffee_id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "coffee_id",
+			"value": ""
+		},
+		{
+			"key": "order_id",
+			"value": ""
+		}
+	]
+}

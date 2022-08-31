@@ -8,6 +8,7 @@ public class CoffeeCreateValidator : AbstractValidator<CoffeeCreateDto>
     public CoffeeCreateValidator()
     {
         RuleFor(c => c.Name).NotEmpty().MaximumLength(50);
-        RuleFor(c => c.SupplierId).NotEmpty();
+        RuleFor(c => c.Type).NotEmpty().MaximumLength(25);
+        RuleFor(c => c.Quantity).GreaterThanOrEqualTo(0);
     }
 }

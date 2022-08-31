@@ -1,5 +1,6 @@
 ﻿using Coffeeshop.Domain.Interfaces;
 using Coffeeshop.Domain.Models;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -27,9 +28,17 @@ internal class GenericRepository<T> : IAsyncRepository<T>
         return entity;
     }
 
-    public async Task<T?> GetAsync(long id)
+    public async Task<T?> GetAsync(long id, params Expression<Func<T,object>>[] includes)
     {
-        return await _coffeeContext.FindAsync<T>(id);
+        var query = _coffeeContext.Set<T>().AsNoTracking();
+        if (includes.Any())
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+        return await query.SingleOrDefaultAsync(x => x.Id == id);
     }
 
     public long GetId(T entity)
@@ -37,12 +46,21 @@ internal class GenericRepository<T> : IAsyncRepository<T>
         return entity.Id;
     }
 
-    public async Task<IEnumerable<T>> QueryAsync(Func<IQueryable<T>, IQueryable<T>>? filter = null)
+    public async Task<IEnumerable<T>> QueryAsync(Func<IQueryable<T>,  IQueryable<T>>? filter = null, params Expression<Func<T, object>>[] includes)
     {
+        var query = _coffeeContext.Set<T>().AsNoTracking();
+        if (includes.Any())
+        {
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+        }
+
         if (filter != null)
-            return await Task.FromResult(filter(_coffeeContext.Set<T>()).ToList());
+            return await Task.FromResult(filter(query).ToList());
         else
-            return await Task.FromResult(_coffeeContext.Set<T>().AsEnumerable());
+            return await Task.FromResult(query.AsEnumerable());
     }
 
     public async Task<bool> RemoveAsync(long id)
@@ -76,9 +94,9 @@ internal class GenericRepository<T> : IAsyncRepository<T>
 
     protected virtual void Dispose(bool disposing)
     {
-        if (disposing)
-        {
+        //if (disposing)
+        //{
 
-        }
+        //}
     }
 }

@@ -12,7 +12,7 @@ internal static class CoffeeFilters
     {
         if(!string.IsNullOrWhiteSpace(name)) // condition to add the where
         {
-            query = query.Where(x => x.Name.StartsWith(name, StringComparison.InvariantCultureIgnoreCase)); // add where clause
+            query = query.Where(x => x.Name.StartsWith(name)); // add where clause
         }
 
         return query; // single exit point
@@ -22,9 +22,9 @@ internal static class CoffeeFilters
     {
         if (!string.IsNullOrWhiteSpace(type))
         {
-            query = query.Where(x => x.Type.StartsWith(type, StringComparison.InvariantCultureIgnoreCase));
+            query = query.Where(x => x.Type.StartsWith(type));
         }
 
         return query;
-    }
+    } 
 }

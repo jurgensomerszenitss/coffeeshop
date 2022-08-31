@@ -12,7 +12,7 @@ internal class CoffeeContext : DbContext
     }
 
     public DbSet<Coffee>? Coffee { get; set; }
-    public DbSet<Supplier>? Suppliers { get; set; }
+    public DbSet<Order>? Orders { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

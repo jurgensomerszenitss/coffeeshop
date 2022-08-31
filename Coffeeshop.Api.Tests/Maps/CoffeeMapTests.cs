@@ -2,6 +2,7 @@
 using Coffeeshop.Domain.Commands;
 using Coffeeshop.Domain.Models;
 using Coffeeshop.Domain.Queries;
+using NUnit.Framework;
 
 namespace Coffeeshop.Api.Tests.Maps;
 
@@ -18,7 +19,8 @@ internal class CoffeeMapTests : TestBase
 
         // assert
         Assert.IsNotNull(actual); 
-        Assert.That(actual.Name, Is.EqualTo(item.Name)); 
+        Assert.That(actual.Name, Is.EqualTo(item.Name));
+        Assert.That(actual.Type, Is.EqualTo(item.Type));
     }
 
     [Test]
@@ -34,9 +36,7 @@ internal class CoffeeMapTests : TestBase
         Assert.IsNotNull(actual);
         Assert.That(actual.Id, Is.EqualTo(item.Id));
         Assert.That(actual.Name, Is.EqualTo(item.Name));
-        Assert.That(actual.Type, Is.EqualTo(item.Type));
-        Assert.That(actual.SupplierId, Is.EqualTo(item.SupplierId));
-        Assert.That(actual.SupplierName, Is.EqualTo(item.Supplier?.Name));
+        Assert.That(actual.Type, Is.EqualTo(item.Type));        
     }
 
 
@@ -54,7 +54,7 @@ internal class CoffeeMapTests : TestBase
         Assert.That(actual.Id, Is.EqualTo(item.Id));
         Assert.That(actual.Name, Is.EqualTo(item.Name));
         Assert.That(actual.Type, Is.EqualTo(item.Type));
-        Assert.That(actual.SupplierId, Is.EqualTo(item.SupplierId));
+        Assert.That(actual.Quantity, Is.EqualTo(item.Quantity));
     }
 
     [Test]
@@ -70,7 +70,7 @@ internal class CoffeeMapTests : TestBase
         Assert.IsNotNull(actual);
         Assert.That(actual.Name, Is.EqualTo(item.Name));
         Assert.That(actual.Type, Is.EqualTo(item.Type));
-        Assert.That(actual.SupplierId, Is.EqualTo(item.SupplierId));
+        Assert.That(actual.Quantity, Is.EqualTo(item.Quantity));
     }
 
     [Test]
@@ -87,6 +87,22 @@ internal class CoffeeMapTests : TestBase
         Assert.That(actual.Id, Is.EqualTo(item.Id));
         Assert.That(actual.Name, Is.EqualTo(item.Name));
         Assert.That(actual.Type, Is.EqualTo(item.Type));
-        Assert.That(actual.SupplierId, Is.EqualTo(item.SupplierId));
+        Assert.That(actual.Quantity, Is.EqualTo(item.Quantity));
+    }
+
+    [Test]
+    public void Map_SalesSearchResponse_To_Dto()
+    {
+        // arrange
+        var item = Fixture.Create<SalesSearch.Response>();
+
+        // act
+        var actual = item.Adapt<CoffeeSalesDto>();
+
+        // assert
+        Assert.IsNotNull(actual);
+        Assert.That(actual.CoffeeId, Is.EqualTo(item.CoffeeId));
+        Assert.That(actual.CoffeeName, Is.EqualTo(item.CoffeeName));
+        Assert.That(actual.Quantity, Is.EqualTo(item.Quantity));
     }
 }

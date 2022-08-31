@@ -13,6 +13,7 @@ public class CoffeeMaps : IRegister
     {
         // queries
         config.NewConfig<CoffeeQueryDto, CoffeeSearch.Query>();
+        config.NewConfig<SalesSearch.Response, CoffeeSalesDto>();
 
         // model
         config.NewConfig<Coffee, CoffeeSearchDto>();

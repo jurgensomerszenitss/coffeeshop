@@ -14,3 +14,13 @@
 /Coffeeshop.Domain.Tests/obj
 /Coffeeshop.Infrastructure/bin/Debug/net6.0
 /Coffeeshop.Infrastructure/obj
+/Coffeeshop.Api/bin/Release/net6.0
+/Coffeeshop.Api.Tests/bin/Release/net6.0
+/Coffeeshop.Domain/bin/Release/net6.0
+/Coffeeshop.Infrastructure/bin/Release/net6.0
+/Coffeeshop.Api/Properties/ServiceDependencies
+/Coffeeshop.Api/Properties/PublishProfiles
+/Coffeeshop.Api/Properties/serviceDependencies.zss-coffeeshop - Web Deploy.json.user
+/Coffeeshop.Api/Properties/serviceDependencies.zss-coffeeshop - Web Deploy.json
+/Coffeeshop.Api/Properties/serviceDependencies.json
+/Coffeeshop.Api/logs

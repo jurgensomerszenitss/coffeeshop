@@ -13,7 +13,11 @@ public static class Bootstrapper
         services.AddTransient<IUnitOfWork, UnitOfWork>();
 
         var connectionString = configuration.GetConnectionString("CoffeeContext");
+#if DEBUG
         services.AddDbContext<CoffeeContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+#else
+        services.AddDbContext<CoffeeContext>(options => options.UseInMemoryDatabase("CoffeeDb"));
+#endif
 
         return services;
     }

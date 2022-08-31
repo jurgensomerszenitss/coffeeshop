@@ -19,6 +19,5 @@ internal class CoffeeUpdateTests : TestBase
         Assert.That(actual.Id, Is.EqualTo(item.Id));
         Assert.That(actual.Name, Is.EqualTo(item.Name));
         Assert.That(actual.Type, Is.EqualTo(item.Type));
-        Assert.That(actual.SupplierId, Is.EqualTo(item.SupplierId));
     }
 }

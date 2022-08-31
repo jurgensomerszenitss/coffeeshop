@@ -2,13 +2,12 @@
 using Coffeeshop.Domain.Models;
 using Coffeeshop.Domain.Queries.Filters;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace Coffeeshop.Domain.Queries;
 
 public static class CoffeeSearch
 {
-    public record Query(string Name, string Type) : IRequest<IEnumerable<Coffee>>;
+    public record Query(string? Name = null, string? Type = null) : IRequest<IEnumerable<Coffee>>;
 
     // Handler receive specific query and return domain models (or list of domain models)
     public class Handler : IRequestHandler<Query, IEnumerable<Coffee>>
@@ -26,7 +25,6 @@ public static class CoffeeSearch
 
             // construct filter
             var filter = (IQueryable<Coffee> q) => q
-                .Include(p => p.Supplier)
                 .WhereName(request.Name)
                 .WhereType(request.Type);
 

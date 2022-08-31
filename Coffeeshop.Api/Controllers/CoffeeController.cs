@@ -6,6 +6,7 @@ using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Coffeeshop.Api.Controllers
 {
@@ -88,6 +89,8 @@ namespace Coffeeshop.Api.Controllers
         {
             try
             {
+                if (dto == null) return BadRequest();
+
                 var validationResult = await _coffeeCreateValidator.ValidateAsync(dto);
                 if (validationResult.IsValid)
                 {
@@ -98,7 +101,7 @@ namespace Coffeeshop.Api.Controllers
                 else
                 {
                     validationResult.AddToModelState(this.ModelState);
-                    return BadRequest(this.ModelState);
+                    return BadRequest(ModelState);
                 }
             }
             catch (Exception exc)
@@ -119,21 +122,24 @@ namespace Coffeeshop.Api.Controllers
         {
             try
             {
+                if (dto == null) return BadRequest();
+
                 var validationResult = await _coffeeUpdateValidator.ValidateAsync(dto);
                 if (validationResult.IsValid)
                 {
                     var command = dto.Adapt<CoffeeUpdate.Command>();
                     var result = await _mediator.Send(command);
-                    if (result)
+                    return result switch
                     {
-                        return Accepted(new Uri($"/coffee/{dto.Id}", UriKind.Relative), result);
-                    }
-                }
+                        UpdateResult.NotFound => NotFound(),
+                        _ => Accepted(new Uri($"/Coffee/{dto.Id}", UriKind.Relative), result)
+                    };
+                } 
                 else
                 {
-                    validationResult.AddToModelState(this.ModelState);                    
-                }
-                return BadRequest(this.ModelState);
+                    validationResult.AddToModelState(this.ModelState);
+                    return BadRequest(this.ModelState);
+                }               
             }
             catch (Exception exc)
             {
@@ -153,11 +159,13 @@ namespace Coffeeshop.Api.Controllers
             try
             {                
                 var result = await _mediator.Send(new CoffeeDelete.Command(id));
-                if (result)
+                /// Example of return switch statement .NET 6
+                return result switch
                 {
-                    return NoContent();
-                }
-                return Forbid();
+                    DeleteResult.Forbidden => StatusCode((int)HttpStatusCode.Forbidden),
+                    DeleteResult.NotFound => NotFound(),
+                    _ => NoContent()
+                };
 
             }
             catch (Exception exc)

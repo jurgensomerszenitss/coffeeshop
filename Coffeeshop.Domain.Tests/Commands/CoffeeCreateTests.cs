@@ -18,6 +18,5 @@ internal class CoffeeCreateTests : TestBase
         Assert.IsNotNull(actual);
         Assert.That(actual.Name, Is.EqualTo(item.Name));
         Assert.That(actual.Type, Is.EqualTo(item.Type));
-        Assert.That(actual.SupplierId, Is.EqualTo(item.SupplierId));
     }
 }
