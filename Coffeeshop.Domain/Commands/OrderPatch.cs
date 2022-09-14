@@ -7,7 +7,7 @@ namespace Coffeeshop.Domain.Commands;
 
 public static class OrderPatch
 {
-    public record Command(long Id, string? Name) :IRequest<UpdateResult>;
+    public record Command(long Id, string? Name = null, OrderStatus? Status = null) :IRequest<UpdateResult>;
 
     public class Handler : IRequestHandler<Command, UpdateResult>
     {

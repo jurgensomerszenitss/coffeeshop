@@ -32,6 +32,7 @@ public static class OrderCreate
             using var repository = _unitOfWork.AsyncRepository<Order>();
             var entity = request.Adapt<Order>();
             entity.Date = DateTime.Now;
+            entity.Status = OrderStatus.Pending;
             await repository.AddAsync(entity);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

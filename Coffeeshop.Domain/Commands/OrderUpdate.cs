@@ -23,18 +23,23 @@ public static class OrderUpdate
 
         public async Task<UpdateResult> Handle(Command request, CancellationToken cancellationToken)
         {
-            await _mediator.Publish(new OrderDeleted.Notification(request.Id));
+            //await _mediator.Publish(new OrderDeleted.Notification(request.Id));
             var result = await base.Handle(request.Id, request, cancellationToken);
-            await _mediator.Publish(new OrderCreated.Notification(request.Id));
+            //await _mediator.Publish(new OrderCreated.Notification(request.Id));
             return result;
         }
+
+        protected override Task<Order?> Load(long id, IAsyncRepository<Order> repository)
+        {
+            return repository.GetAsync(id, x => x.Items);
+        }     
     }
 
     public class Map : IRegister
     {
         public void Register(TypeAdapterConfig config)
         {
-            config.NewConfig<Command, Order>();
+            config.NewConfig<Command, Order>().Ignore(d => d.Items);
             config.NewConfig<CommandItem, OrderItem>();
         }
     }

@@ -15,8 +15,10 @@ public class OrderMaps : IRegister
         config.NewConfig<OrderQueryDto, OrderSearch.Query>();
 
         // model
-        config.NewConfig<Order, OrderSearchDto>();
-        config.NewConfig<Order, OrderGetDto>();
+        config.NewConfig<Order, OrderSearchDto>()
+            .Map(d => d.Status, s => s.Status.ToString());
+        config.NewConfig<Order, OrderGetDto>()
+            .Map(d => d.Status, s => s.Status.ToString());
         config.NewConfig<OrderItem, OrderGetItemDto>();
 
         // commands

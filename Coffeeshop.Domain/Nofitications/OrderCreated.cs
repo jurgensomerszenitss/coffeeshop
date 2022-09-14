@@ -2,14 +2,15 @@
 using Coffeeshop.Domain.Interfaces;
 using Coffeeshop.Domain.Models;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Coffeeshop.Domain.Notifications;
 
 public static class OrderCreated
 {
     /// notifications are domain events
-    /// they don't return any value, but only execute additional logic required by the domain
+    /// they don't return any value, but only execute additional logic required by the domain <summary>
+    /// notifications are domain events
+    /// In this example, we update the stock (reserve it), and queue the order for processing using Redis
     public record Notification(long Id) : INotification;
 
     public class Handler : INotificationHandler<Notification>
@@ -23,6 +24,8 @@ public static class OrderCreated
         private readonly IMediator _mediator;
         private readonly IUnitOfWork _unitOfWork;
 
+        
+
         public async Task Handle(Notification request, CancellationToken cancellationToken)
         {
             var repository = _unitOfWork.AsyncRepository<Order>();
@@ -30,8 +33,9 @@ public static class OrderCreated
 
             if (order != null)
             {
-                var idQuantities = order.Items.ToDictionary(x => x.CoffeeId, x => x.Quantity);
-                await _mediator.Send(new CoffeePatch.Command(idQuantities));              
+                var idQuantities = order.Items.GroupBy(x => x.CoffeeId).ToDictionary(x => x.Key, x => x.Sum(i => i.Quantity));
+                await _mediator.Send(new CoffeePatch.Command(idQuantities));
+                await _mediator.Send(new OrderSchedule.Command(request.Id));
             }
         }
     }

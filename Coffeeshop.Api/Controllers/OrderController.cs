@@ -1,4 +1,5 @@
 using Coffeeshop.Api.Dto;
+using Coffeeshop.Api.Filters;
 using Coffeeshop.Api.Validations.Extensions;
 using Coffeeshop.Domain.Commands;
 using Coffeeshop.Domain.Queries;
@@ -33,7 +34,7 @@ namespace Coffeeshop.Api.Controllers
         private readonly IValidator<OrderUpdateDto> _orderUpdateValidator; 
 
         /// <summary>
-        /// Queries for a list of coffees
+        /// Queries for a list of orders
         /// </summary>
         /// <param name="queryDto"></param>
         /// <returns>Ok</returns>
@@ -54,7 +55,7 @@ namespace Coffeeshop.Api.Controllers
         }
 
         /// <summary>
-        /// Gets single coffee
+        /// Gets single order
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Ok when found, NotFound when not found</returns>
@@ -80,11 +81,11 @@ namespace Coffeeshop.Api.Controllers
 
 
         /// <summary>
-        /// Creates a new coffee
+        /// Creates a new order
         /// </summary>
         /// <param name="dto"></param>
         /// <returns>Created when success, BadRequest when not valid</returns>
-        [HttpPost]
+        [HttpPost, ShopOpen]
         public async Task<IActionResult> CreateAsync([FromBody] OrderCreateDto? dto)
         {
             try
@@ -117,7 +118,7 @@ namespace Coffeeshop.Api.Controllers
         /// </summary>
         /// <param name="dto"></param>
         /// <returns>Accepted when success, BadRequest when Invalid, NotFound when not found</returns>
-        [HttpPut]
+        [HttpPut, ShopOpen]
         public async Task<IActionResult> UpdateAsync([FromBody] OrderUpdateDto? dto)
         {
             try
@@ -153,7 +154,7 @@ namespace Coffeeshop.Api.Controllers
         /// </summary>
         /// <param name="dto"></param>
         /// <returns>Accepted when success, BadRequest when Invalid, NotFound when not found</returns>
-        [HttpPatch("{id:long}")]
+        [HttpPatch("{id:long}"), ShopOpen]
         public async Task<IActionResult> PatchAsync([FromRoute] long id, [FromBody] OrderPatchDto? dto)
         {
             try
@@ -180,7 +181,7 @@ namespace Coffeeshop.Api.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>NoContent when success, Forbidden when not allowed</returns>
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), ShopOpen]
         public async Task<IActionResult> DeleteAsync([FromRoute] long id)
         {
             try
@@ -201,5 +202,6 @@ namespace Coffeeshop.Api.Controllers
                 return Problem(exc.Message);
             }
         }
+        
     }
 }

@@ -35,6 +35,7 @@ internal class OrderMapTests : TestBase
         Assert.That(actual.Id, Is.EqualTo(item.Id));
         Assert.That(actual.Name, Is.EqualTo(item.Name));
         Assert.That(actual.Date, Is.EqualTo(item.Date));
+        Assert.That(actual.Status, Is.EqualTo(item.Status.ToString()));
     }
 
 
@@ -51,7 +52,8 @@ internal class OrderMapTests : TestBase
         Assert.IsNotNull(actual);
         Assert.That(actual.Id, Is.EqualTo(item.Id));
         Assert.That(actual.Name, Is.EqualTo(item.Name));
-        Assert.That(actual.Date, Is.EqualTo(item.Date)); 
+        Assert.That(actual.Date, Is.EqualTo(item.Date));
+        Assert.That(actual.Status, Is.EqualTo(item.Status.ToString()));
     }
 
     [Test]
